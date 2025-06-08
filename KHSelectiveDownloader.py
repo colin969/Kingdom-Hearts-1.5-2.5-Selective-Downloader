@@ -47,13 +47,13 @@ def run():
   compressed_movies = compress_choice == "1"
 
   games = {
-    "1": ("Kingdom Hearts 1", "kh1"),
-    "2": ("KH1 Theater Mode", "theater"),
-    "3": ("Re:Chain of Memories", "com"),
-    "4": ("Kingdom Hearts 2", "kh2"),
-    "5": ("Birth by Sleep", "bbs"),
-    "6": ("358/2 Days (Movie Only)", "days"),
-    "7": ("Re:Coded (Movie Only)", "coded")
+    "1": ("Kingdom Hearts 1           (10.3 GB Full / 9 GB    Compressed)", "kh1"),
+    "2": ("KH1 Theater Mode           (10.1 GB Full / 3.4 GB  Compressed)", "theater"),
+    "3": ("Re:Chain of Memories       (10.3 GB Full / 5.3 GB  Compressed)", "com"),
+    "4": ("Kingdom Hearts 2           (16.7 GB Full / 15.8 GB Compressed)", "kh2"),
+    "5": ("Birth by Sleep             ( 8.0 GB Full / 6.4 GB  Compressed)", "bbs"),
+    "6": ("358/2 Days (Movie Only)    ( 6.0 GB Full / 1.6 GB  Compressed)", "days"),
+    "7": ("Re:Coded (Movie Only)      ( 6.4 GB Full / 2 GB    Compressed)", "coded")
   }
 
   print("\nSelect games to download (comma-separated, e.g., 1,3,4):")
@@ -79,7 +79,7 @@ def run():
   print(f"\nDownloading with settings:")
   print(f"Language: {language}")
   print(f"Compressed movies: {compressed_movies}")
-  print(f"Selected games: {[games[k][0] for k, v in games.items() if v[1] in selected_games]}")
+  print(f"Selected games: \n\t{"\n\t".join([games[k][0] for k, v in games.items() if v[1] in selected_games])}")
     
   base_depot = en_base_depot if language == "en" else jp_base_depot
   download_depot("Base Install", base_depot, install_dir, base_regex, username)
