@@ -30,7 +30,9 @@ Make sure Steam is closed.
 
 Run the EXE and follow the prompts to configure your install.
 
-When prompted to select a folder, select the `steamapps` folder you wish to install to.
+When prompted to select a folder, select the `steamapps` folder you wish to install to. (By default this would be `C:\Program Files (x86)\Steam\steamapps`)
+
+Wait for the install to finish. You will get several terminals opening as it downloads each games set of files, but these will close automatically.
 
 # Build
 
