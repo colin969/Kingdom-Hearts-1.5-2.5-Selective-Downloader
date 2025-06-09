@@ -1,3 +1,7 @@
 /KINGDOM*
 filelist.txt
 DepotDownloader.exe
+.venv
+build
+dist
+files

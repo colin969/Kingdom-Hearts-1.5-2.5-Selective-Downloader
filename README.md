@@ -19,17 +19,21 @@ Python script which uses Depot Downloader to download only the games or movies f
 
 # Setup
 
-Make sure `DepotDownloader.exe` is downloaded and extracted next to this script
+Download the EXE from the releases page, build it yourself, or just execute the script manually when required
+
+Make sure `DepotDownloader.exe` is downloaded and extracted next to the EXE.
 You likely want to download `DepotDownloader-windows-x64.zip` from https://github.com/SteamRE/DepotDownloader/releases
 
 # Usage
 
-Double click to run `KHSelectiveDownloader.py` or run it from terminal
+Make sure Steam is closed.
 
-You will be prompted for which games and movies to install, in which language and whether they are compressed or not, and where to install to.
+Run the EXE and follow the prompts to configure your install.
 
-When prompted, enter your Steam username. The script does not store this, it is just given to DepotDownloader.
+When prompted to select a folder, select the `steamapps` folder you wish to install to.
 
-DepotDownloader will ask you to enter your password the first time it runs, it will store your auth token in `.DepotDownloader` inside the install folder so it doesn't need to prompt multiple times
+# Build
 
-Delete `.DepotDownloader` from the install folder after everything has finished
+`pip install -r requirements.txt`
+
+`pyinstaller --onefile 'KHSelectiveDownloader.py'`

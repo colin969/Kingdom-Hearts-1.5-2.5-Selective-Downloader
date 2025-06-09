@@ -1,3 +1,6 @@
+from tkinter import Tk
+from tkinter.filedialog import askdirectory
+import os
 import subprocess
 import sys
 
@@ -25,12 +28,68 @@ bbs_movie_regex = "^STEAM/juefigs/BBSReSource"
 days_movie_regex = "^STEAM/Mare/MOVIE/Days"
 coded_movie_regex = "^STEAM/Mare/MOVIE/ReCoded"
 
+appmanifest = """"AppState"
+{
+	"appid"		"2552430"
+	"Universe"		"1"
+	"LauncherPath"		"C:\\Program Files (x86)\\Steam\\steam.exe"
+	"name"		"KINGDOM HEARTS -HD 1.5+2.5 ReMIX-"
+	"StateFlags"		"4"
+	"installdir"		"KINGDOM HEARTS -HD 1.5+2.5 ReMIX-"
+	"LastUpdated"		"1724662837"
+	"LastPlayed"		"0"
+	"SizeOnDisk"		"77175061920"
+	"StagingSize"		"77175061920"
+	"buildid"		"15194255"
+	"LastOwner"		"76561197960287930"
+	"UpdateResult"		"0"
+	"BytesToDownload"		"68382664912"
+	"BytesDownloaded"		"68382664912"
+	"BytesToStage"		"77175061920"
+	"BytesStaged"		"77175061920"
+	"TargetBuildID"		"15194255"
+	"AutoUpdateBehavior"		"0"
+	"AllowOtherDownloadsWhileRunning"		"0"
+	"ScheduledAutoUpdate"		"0"
+	"InstalledDepots"
+	{
+		"2552433"
+		{
+			"manifest"		"2946731077053901934"
+			"size"		"40940685792"
+		}
+		"2552435"
+		{
+			"manifest"		"3908821002986173448"
+			"size"		"36234376128"
+		}
+	}
+	"SharedDepots"
+	{
+		"228989"		"228980"
+		"228990"		"228980"
+		"229002"		"228980"
+	}
+	"UserConfig"
+	{
+		"language"		"english"
+	}
+	"MountedConfig"
+	{
+	}
+}"""
+
 language = "en"
 compressed_movies = False
 
 def run():
   print("Kingdom Hearts 1.5 + 2.5 Selective Downloader")
   print("=" * 40)
+
+  # Make sure DepotDownloader exists
+  if not os.path.exists('DepotDownloader.exe'):
+    print("✗ DepotDownloader.exe not found. Please download it from https://github.com/SteamRE/DepotDownloader/releases")
+    return
   
   # Language selection
   print("\nSelect language:")
@@ -65,15 +124,20 @@ def run():
 
   if not selected_games:
     print("No valid games selected. Exiting...")
+    input("Press any key to exit...")
     return
   
   # Install directory selection
-  print(f"\nEnter install directory:")
-  print(f"Default: KINGDOM HEARTS HD 1.5+2.5 ReMIX")
-  install_dir = input("Install directory (press Enter for default): ").strip()
-  if not install_dir:
-      install_dir = "KINGDOM HEARTS HD 1.5+2.5 ReMIX"
-    
+  print(f"\nSelect steamapps directory to install to:")
+  steamapps_dir = askdirectory(mustexist=True)
+  common_dir = os.path.join(steamapps_dir, 'common')
+  appmanifest_path = os.path.join(steamapps_dir, 'appmanifest_2552430.acf')
+  install_dir = os.path.join(steamapps_dir, 'common', 'KINGDOM HEARTS -HD 1.5+2.5 ReMIX-')
+
+  if not os.path.exists(common_dir):
+    print("✗ Invalid steamapps directory selected, no common folder found. Exiting...")
+    return
+
   username = input("\nEnter Steam username: ").strip()
 
   print(f"\nDownloading with settings:")
@@ -116,6 +180,10 @@ def run():
     elif game == "coded":
       download_depot("Re:Coded Movie", movie_depot, install_dir, coded_movie_regex, username)
 
+  print(f"\nSetting up app manifest...")
+  with open(appmanifest_path, 'w') as manifest:
+    manifest.write(appmanifest)
+
   print("✓ Downloads completed.")
 
 def download_depot(name, depot_id, dest, regex, username):
@@ -149,4 +217,6 @@ if __name__ == "__main__":
     run()
   except KeyboardInterrupt:
     print("\n✗ Download cancelled by user.")
+    input("\nPress any key to exit...")
     sys.exit(1)
+  input("\nPress any key to exit...")
